@@ -1,6 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using PGMate;
+using PGMate.Data;
+using PGMate.Repositories;
+using PGMate.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<ICleaningRepository, CleaningRepository>();
+builder.Services.AddScoped<ICleaningService, CleaningService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
