@@ -1,0 +1,6 @@
+@PGMate_HostAddress = http://localhost:5086
+
+GET {{PGMate_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
