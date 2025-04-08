@@ -5,9 +5,10 @@ namespace PGMate
 {
     public interface ICleaningService
     {
-        Task<IEnumerable<CleaningTask>> GetAllTasksAsync();
-        Task<CleaningTask> AddTaskAsync(CleaningTaskDto taskDto);
-        Task<bool> UpdateTaskStatusAsync(int taskId, string status);
-        Task<bool> DeleteTaskAsync(int taskId);
+        Task<IEnumerable<CleaningTaskDto>> GetAllAsync();
+        Task<CleaningTaskDto> GetByIdAsync(int id);
+        Task AddAsync(CleaningTaskDto dto);
+        Task UpdateAsync(int id, CleaningTaskDto dto);
+        Task DeleteAsync(int id);
     }
 }

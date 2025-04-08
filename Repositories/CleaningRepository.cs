@@ -14,32 +14,32 @@ namespace PGMate.Repositories
         }
 
         public async Task<IEnumerable<CleaningTask>> GetAllAsync()
-        {
-            return await _context.CleaningTasks.ToListAsync();
-        }
+            => await _context.CleaningTasks.ToListAsync();
 
         public async Task<CleaningTask> GetByIdAsync(int id)
-        {
-            return await _context.CleaningTasks.FindAsync(id);
-        }
+            => await _context.CleaningTasks.FindAsync(id);
 
-        public async Task<CleaningTask> AddAsync(CleaningTask task)
+        public async Task AddAsync(CleaningTask task)
         {
-            _context.CleaningTasks.Add(task);
+            await _context.CleaningTasks.AddAsync(task);
             await _context.SaveChangesAsync();
-            return task;
         }
 
-        public async Task<bool> UpdateAsync(CleaningTask task)
+        public async Task UpdateAsync(CleaningTask task)
         {
             _context.CleaningTasks.Update(task);
-            return await _context.SaveChangesAsync() > 0;
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> DeleteAsync(CleaningTask task)
+        public async Task DeleteAsync(int id)
         {
-            _context.CleaningTasks.Remove(task);
-            return await _context.SaveChangesAsync() > 0;
+            var task = await GetByIdAsync(id);
+            if (task != null)
+            {
+                _context.CleaningTasks.Remove(task);
+                await _context.SaveChangesAsync();
+            }
         }
     }
+
 }

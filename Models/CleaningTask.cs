@@ -1,23 +1,19 @@
-﻿namespace PGMate.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PGMate.Models
 {
     public class CleaningTask
     {
-        public int Id { get; set; }
+        [Key]
+        public int CleaningTaskId { get; set; }
+        public string TaskDescription { get; set; }
+        public DateTime ScheduledDate { get; set; }
+        public bool IsCompleted { get; set; }
 
-        public string RoomNumber { get; set; }
+        // Foreign Key
+        public int PGMemberId { get; set; }
 
-        public string AssignedTo { get; set; }
-
-        public string TaskType { get; set; } // e.g., "Room Cleaning", "Bathroom", etc.
-
-        public DateTime ScheduledTime { get; set; }
-
-        public string Status { get; set; } = "Pending"; // Pending, Completed, Missed
-
-        public bool IsRecurring { get; set; } = false;
-
-        public DateTime CreatedAt { get; set; }
-
-        public DateTime? UpdatedAt { get; set; }
+        // Navigation Property
+        public PGMember PGMember { get; set; }
     }
 }

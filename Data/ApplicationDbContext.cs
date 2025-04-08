@@ -5,26 +5,29 @@ namespace PGMate.Data
 {
     public class ApplicationDbContext : DbContext
     {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options) { }
 
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<PGMember> PGMembers { get; set; }
         public DbSet<CleaningTask> CleaningTasks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configure entity properties, constraints, and relationships if needed
-            modelBuilder.Entity<CleaningTask>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.RoomNumber).IsRequired().HasMaxLength(10);
-                entity.Property(e => e.AssignedTo).IsRequired().HasMaxLength(50);
-                entity.Property(e => e.TaskType).IsRequired().HasMaxLength(50);
-                entity.Property(e => e.ScheduledTime).IsRequired();
-                entity.Property(e => e.Status).IsRequired().HasMaxLength(20);
-            });
+            // Room → PGMember : 1:N
+            modelBuilder.Entity<Room>()
+                .HasMany(r => r.PGMembers)
+                .WithOne(p => p.Room)
+                .HasForeignKey(p => p.RoomId);
+
+            // PGMember → CleaningTask : 1:N
+            modelBuilder.Entity<PGMember>()
+                .HasMany(p => p.CleaningTasks)
+                .WithOne(c => c.PGMember)
+                .HasForeignKey(c => c.PGMemberId);
         }
     }
+
 }

@@ -5,17 +5,16 @@ namespace PGMate.Models
     public class CleaningTaskDto
     {
         [Required]
-        public string RoomNumber { get; set; }
-
+        public int Id { get; set; }
         [Required]
-        public string AssignedTo { get; set; }
-
+        public string TaskName { get; set; } = string.Empty;
         [Required]
-        public string TaskType { get; set; }
-
+        public string AssignedTo { get; set; } = string.Empty;
         [Required]
-        public DateTime ScheduledTime { get; set; }
-
-        public bool IsRecurring { get; set; }
+        public DateTime ScheduledDate { get; set; }
+        [Required]
+        public bool IsCompleted { get; set; }
+        [Required]
+        public int RoomId { get; set; }
     }
 }

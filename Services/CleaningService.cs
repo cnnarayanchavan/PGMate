@@ -1,54 +1,49 @@
-﻿using PGMate.Models;
+﻿using AutoMapper;
+using PGMate.Models;
 using PGMate.Repositories;
 
 namespace PGMate.Services
 {
     public class CleaningService : ICleaningService
     {
-        private readonly ICleaningRepository _cleaningRepository;
+        private readonly ICleaningRepository _repo;
+        private readonly IMapper _mapper;
 
-        public CleaningService(ICleaningRepository cleaningRepository)
+        public CleaningService(ICleaningRepository repo, IMapper mapper)
         {
-            _cleaningRepository = cleaningRepository;
+            _repo = repo;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CleaningTask>> GetAllTasksAsync()
+        public async Task<IEnumerable<CleaningTaskDto>> GetAllAsync()
         {
-            return await _cleaningRepository.GetAllAsync();
+            var tasks = await _repo.GetAllAsync();
+            return _mapper.Map<IEnumerable<CleaningTaskDto>>(tasks);
         }
 
-        public async Task<CleaningTask> AddTaskAsync(CleaningTaskDto taskDto)
+        public async Task<CleaningTaskDto> GetByIdAsync(int id)
         {
-            var task = new CleaningTask
-            {
-                RoomNumber = taskDto.RoomNumber,
-                AssignedTo = taskDto.AssignedTo,
-                TaskType = taskDto.TaskType,
-                ScheduledTime = taskDto.ScheduledTime,
-                IsRecurring = taskDto.IsRecurring,
-                CreatedAt = DateTime.UtcNow
-            };
-
-            return await _cleaningRepository.AddAsync(task);
+            var task = await _repo.GetByIdAsync(id);
+            return _mapper.Map<CleaningTaskDto>(task);
         }
 
-        public async Task<bool> UpdateTaskStatusAsync(int taskId, string status)
+        public async Task AddAsync(CleaningTaskDto dto)
         {
-            var task = await _cleaningRepository.GetByIdAsync(taskId);
-            if (task == null) return false;
-
-            task.Status = status;
-            task.UpdatedAt = DateTime.UtcNow;
-
-            return await _cleaningRepository.UpdateAsync(task);
+            var entity = _mapper.Map<CleaningTask>(dto);
+            await _repo.AddAsync(entity);
         }
 
-        public async Task<bool> DeleteTaskAsync(int taskId)
+        public async Task UpdateAsync(int id, CleaningTaskDto dto)
         {
-            var task = await _cleaningRepository.GetByIdAsync(taskId);
-            if (task == null) return false;
+            var task = await _repo.GetByIdAsync(id);
+            if (task == null) return;
 
-            return await _cleaningRepository.DeleteAsync(task);
+            _mapper.Map(dto, task);
+            await _repo.UpdateAsync(task);
         }
+
+        public async Task DeleteAsync(int id)
+            => await _repo.DeleteAsync(id);
     }
+
 }
