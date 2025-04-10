@@ -8,6 +8,7 @@ namespace PGMate.Repositories
     {
         private readonly ApplicationDbContext _context;
 
+        // accuaring dependencies through constructor injection...
         public CleaningRepository(ApplicationDbContext context)
         {
             _context = context;

@@ -21,6 +21,12 @@ namespace PGMate.Services
             return _mapper.Map<IEnumerable<RoomDTO>>(rooms);
         }
 
+        public async Task<IEnumerable<RoomDTO>> GetByIdWithMembersAndTasksAsync(int id)
+        {
+            var result = await _repo.GetByIdWithMembersAndTasksAsync(id);
+            return _mapper.Map<IEnumerable<RoomDTO>>(result);
+        }
+
         public async Task<RoomDTO> GetByIdAsync(int id)
         {
             var room = await _repo.GetByIdAsync(id);

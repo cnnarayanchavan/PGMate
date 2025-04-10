@@ -16,9 +16,13 @@ namespace PGMate.Controllers
             _service = service;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-            => Ok(await _service.GetAllAsync());
+        [HttpGet("members-with-rooms")]
+        public async Task<IActionResult> GetAllWithRooms()
+            => Ok(await _service.GetAllWithRoomsAsync());
+
+        [HttpGet("members-with-tasks")]
+        public async Task<IActionResult> GetAllMembersWithTask()
+            => Ok(await _service.GetAllWithCleaningTasksAsync());
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)

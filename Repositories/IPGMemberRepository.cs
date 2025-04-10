@@ -4,7 +4,8 @@ namespace PGMate.Repositories
 {
     public interface IPGMemberRepository
     {
-        Task<IEnumerable<PGMember>> GetAllAsync();
+        Task<IEnumerable<PGMember>> GetAllWithRoomsAsync();
+        Task<IEnumerable<PGMember>> GetAllWithCleaningTasksAsync();
         Task<PGMember> GetByIdAsync(int id);
         Task AddAsync(PGMember member);
         Task UpdateAsync(PGMember member);

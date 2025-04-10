@@ -3,6 +3,7 @@ using PGMate;
 using PGMate.Data;
 using PGMate.Repositories;
 using PGMate.Services;
+//using PGMate.AutoM;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +13,18 @@ builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<ICleaningRepository, CleaningRepository>();
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IPGMemberService, PGMemberService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<ICleaningService, CleaningService>();
+
+//Register Databse Context
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//Register AutoMapper
+// Register AutoMapper using assembly scanning
+//No manual registration ==> You don’t need to do services.AddAutoMapper(typeof(MappingProfile)) manually
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 

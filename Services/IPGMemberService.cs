@@ -4,7 +4,8 @@ namespace PGMate.Services
 {
     public interface IPGMemberService
     {
-        Task<IEnumerable<PGMemberDTO>> GetAllAsync();
+        Task<IEnumerable<PGMemberDTO>> GetAllWithRoomsAsync();
+        Task<IEnumerable<PGMemberDTO>> GetAllWithCleaningTasksAsync();
         Task<PGMemberDTO> GetByIdAsync(int id);
         Task AddAsync(PGMemberDTO dto);
         Task UpdateAsync(int id, PGMemberDTO dto);

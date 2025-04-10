@@ -15,10 +15,16 @@ namespace PGMate.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<PGMemberDTO>> GetAllAsync()
+        public async Task<IEnumerable<PGMemberDTO>> GetAllWithRoomsAsync()
         {
-            var members = await _repo.GetAllAsync();
+            var members = await _repo.GetAllWithRoomsAsync();
             return _mapper.Map<IEnumerable<PGMemberDTO>>(members);
+        }
+
+        public async Task<IEnumerable<PGMemberDTO>> GetAllWithCleaningTasksAsync()
+        { 
+            var result = await _repo.GetAllWithCleaningTasksAsync();
+            return _mapper.Map<IEnumerable<PGMemberDTO>>(result);
         }
 
         public async Task<PGMemberDTO> GetByIdAsync(int id)

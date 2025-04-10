@@ -6,7 +6,7 @@ namespace PGMate.Models
     {
         [Key]
         public int RoomId { get; set; }
-        public string RoomNumber { get; set; }
+        public string RoomNumber { get; set; } = string.Empty;
         public int Capacity { get; set; }
 
         // Navigation Property

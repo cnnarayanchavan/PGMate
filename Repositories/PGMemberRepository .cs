@@ -13,8 +13,14 @@ namespace PGMate.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<PGMember>> GetAllAsync()
+        //Get all pg membars with their rooms 
+        public async Task<IEnumerable<PGMember>> GetAllWithRoomsAsync()
             => await _context.PGMembers.Include(m => m.Room).ToListAsync();
+
+        //Get all pg membars with their cleaning tasks.
+        public async Task<IEnumerable<PGMember>> GetAllWithCleaningTasksAsync()
+            => await _context.PGMembers.Include(ct => ct.CleaningTasks).ToListAsync();
+
 
         public async Task<PGMember> GetByIdAsync(int id)
             => await _context.PGMembers.Include(m => m.Room).FirstOrDefaultAsync(m => m.PGMemberId == id);

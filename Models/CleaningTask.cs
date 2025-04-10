@@ -6,7 +6,8 @@ namespace PGMate.Models
     {
         [Key]
         public int CleaningTaskId { get; set; }
-        public string TaskDescription { get; set; }
+        public string TaskDescription { get; set; } = string.Empty; // Avoid nulls
+
         public DateTime ScheduledDate { get; set; }
         public bool IsCompleted { get; set; }
 

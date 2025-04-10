@@ -19,6 +19,19 @@ namespace PGMate.Repositories
         public async Task<Room> GetByIdAsync(int id)
             => await _context.Rooms.Include(r => r.PGMembers).FirstOrDefaultAsync(r => r.RoomId == id);
 
+
+        // Get a Room by Id with Members and their Tasks
+        public async Task<Room?> GetByIdWithMembersAndTasksAsync(int id)
+        {
+            var task = await _context.Rooms.Where(rid => rid.RoomId == id)
+                .Include(pm => pm.PGMembers)
+                .ThenInclude(ct => ct.CleaningTasks)
+                .FirstOrDefaultAsync();
+
+           return task;
+        }
+
+
         public async Task AddAsync(Room room)
         {
             await _context.Rooms.AddAsync(room);
