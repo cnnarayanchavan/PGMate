@@ -17,7 +17,7 @@ namespace PGMate.Services
             _repo = repo;
             _cache = cache;
             _mapper = mapper;
-            
+
         }
 
         //public async Task<IEnumerable<RoomDTO>> GetAllAsync()
@@ -76,8 +76,10 @@ namespace PGMate.Services
         }
 
         public async Task DeleteAsync(int id)
-            => await _repo.DeleteAsync(id);
-        _cache.Remove("all_rooms");
+        { 
+            await _repo.DeleteAsync(id);
+            _cache.Remove("all_rooms");
+        }
     }
 
 }
